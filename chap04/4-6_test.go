@@ -2,6 +2,7 @@ package chap04
 
 import (
 	"log"
+	"math/rand"
 	"testing"
 )
 
@@ -25,4 +26,41 @@ func Test_generator(t *testing.T) {
 	for v := range pipeline {
 		log.Println(v)
 	}
+}
+
+func Test_take(t *testing.T) {
+	done := make(chan interface{})
+	defer close(done)
+	for num := range take(done, repeat(done, 1), 10) {
+		log.Printf("%v ", num)
+	}
+}
+
+
+// interface{}型で使いまわすのは議論の余地あり
+// 補填Bでgo generate使った汎化の方法あるとのこと
+// 型明確にした方がパフォーマンス2倍ほど早くなるけど、単位的には変わらない.
+// 大体CPUより、network, diskなどのバウンドが問題になるので、これは無視できるほどでは？とのこと
+func Test_repeatFn(t *testing.T) {
+	done := make(chan interface{})
+	defer close(done)
+
+	rand := func() interface{} { return rand.Int() }
+
+	for num := range take(done, repeatFn(done, rand), 5) {
+		log.Printf("%v ", num)
+	}
+}
+
+func Test_toString(t *testing.T) {
+	done := make(chan interface{})
+	defer close(done)
+
+	var message string
+
+	for token := range toString(done, take(done, repeat(done, "I", "am."), 5)) {
+		message += token
+	}
+
+	log.Printf("message: %v", message)
 }
