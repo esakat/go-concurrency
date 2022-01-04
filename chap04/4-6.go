@@ -129,7 +129,7 @@ func toString(done <-chan interface{}, valueStream <-chan interface{}) <-chan st
 			select {
 			case <-done:
 				return
-				case stringStream <- v.(string):
+			case stringStream <- v.(string):
 			}
 		}
 	}()
