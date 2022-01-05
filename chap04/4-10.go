@@ -1,7 +1,7 @@
 package chap04
 
 // 2重？にくるまってるchanを1つにして返す
-func bridge(done <-chan interface{}, chanStream <-chan <-chan interface{}) <-chan interface{} {
+func Bridge(done <-chan interface{}, chanStream <-chan <-chan interface{}) <-chan interface{} {
 	valStream := make(chan interface{})
 	go func() {
 		defer close(valStream)

@@ -9,7 +9,7 @@ func Test_Bridge(t *testing.T) {
 	done := make(chan interface{})
 	defer close(done)
 
-	for v := range bridge(nil, genVals()) {
+	for v := range Bridge(nil, genVals()) {
 		log.Printf("%v ", v)
 	}
 }
