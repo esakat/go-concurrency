@@ -8,7 +8,7 @@ import (
 
 func Test_runJob(t *testing.T) {
 	log.SetOutput(os.Stdout)
-	log.SetFlags(log.Ltime|log.LUTC)
+	log.SetFlags(log.Ltime | log.LUTC)
 
 	err := runJob("1")
 	if err != nil {
@@ -19,5 +19,4 @@ func Test_runJob(t *testing.T) {
 		handleError(1, err, msg)
 	}
 
-	log.Println("finish")
 }

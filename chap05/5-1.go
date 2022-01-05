@@ -9,18 +9,18 @@ import (
 )
 
 type MyError struct {
-	Inner error
-	Message string
+	Inner      error
+	Message    string
 	StackTrace string
-	Misc map[string]interface{}
+	Misc       map[string]interface{}
 }
 
 func wrapError(err error, messagef string, msgArgs ...interface{}) MyError {
 	return MyError{
-		Inner: err,
-		Message: fmt.Sprintf(messagef, msgArgs...),
+		Inner:      err,
+		Message:    fmt.Sprintf(messagef, msgArgs...),
 		StackTrace: string(debug.Stack()),
-		Misc: make(map[string]interface{}),
+		Misc:       make(map[string]interface{}),
 	}
 }
 
@@ -48,9 +48,17 @@ func runJob(id string) error {
 	const jobBinPath = "/bad/job/binary"
 	isExecutable, err := isGloballyExec(jobBinPath)
 	if err != nil {
-		return err
+		return IntermediateErr{wrapError(
+			err,
+			"cannot run job:%q: requisite binaries not available",
+			id,
+		)}
 	} else if isExecutable == false {
-		return wrapError(nil, "job binary is not executable")
+		return wrapError(
+			nil,
+			"cannot run job: %q: requisite binaries are not executable",
+			id,
+		)
 	}
 
 	return exec.Command(jobBinPath, "--id="+id).Run()
