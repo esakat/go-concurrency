@@ -1,6 +1,9 @@
 package chap05
 
-import "time"
+import (
+	"math/rand"
+	"time"
+)
 
 // heartbeat
 
@@ -37,7 +40,7 @@ func doWork(
 			}
 		}
 
-		for i := 0; i < 2; i++ {
+		for {
 			select {
 			case <-done:
 				return
@@ -47,6 +50,61 @@ func doWork(
 				sendResult(r)
 			}
 		}
+
 	}()
 	return heartbeat, results
+}
+
+func doWorkPerJob(done <-chan interface{}) (<-chan interface{}, <-chan int) {
+	heartbeatStream := make(chan interface{}, 1)
+	workStream := make(chan int)
+	go func() {
+		defer close(heartbeatStream)
+		defer close(workStream)
+
+		for i := 0; i < 10; i++ {
+			select {
+			case heartbeatStream <- struct{}{}:
+			default:
+			}
+
+			select {
+			case <-done:
+				return
+			case workStream <- rand.Intn(10):
+			}
+		}
+	}()
+
+	return heartbeatStream, workStream
+}
+
+
+func doWorkWithIntStream(
+	done <-chan interface{},
+	nums ...int,
+	) (<-chan interface{}, <-chan int) {
+	heartbeatStream := make(chan interface{}, 1)
+	intStream := make(chan int)
+	go func() {
+		defer close(heartbeatStream)
+		defer close(intStream)
+
+		time.Sleep(2*time.Second)
+
+		for _, n := range nums {
+			select {
+			case heartbeatStream <- struct{}{}:
+			default:
+			}
+
+			select {
+			case <-done:
+				return
+			case intStream <- n:
+			}
+		}
+	}()
+
+	return heartbeatStream, intStream
 }
