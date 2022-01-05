@@ -23,6 +23,7 @@ func doWork(
 			default:
 			}
 		}
+
 		sendResult := func(r time.Time) {
 			for {
 				select {
@@ -36,7 +37,7 @@ func doWork(
 			}
 		}
 
-		for {
+		for i := 0; i < 2; i++ {
 			select {
 			case <-done:
 				return
@@ -46,7 +47,6 @@ func doWork(
 				sendResult(r)
 			}
 		}
-
 	}()
 	return heartbeat, results
 }
