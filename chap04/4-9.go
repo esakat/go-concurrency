@@ -13,10 +13,10 @@ func tee(done <-chan interface{}, in <-chan interface{}) (_, _ <-chan interface{
 			for i := 0; i < 2; i++ {
 				select {
 				// 片方に書き込みが成功したら
-				case out1<-val:
+				case out1 <- val:
 					// out1をnilで上書きして、もう使えなくする(次のループでは1回目で使わなかった方に確実に書き込まれる
 					out1 = nil
-				case out2<-val:
+				case out2 <- val:
 					out2 = nil
 				}
 			}

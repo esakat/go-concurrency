@@ -11,7 +11,7 @@ import (
 func Test_APIConnection(t *testing.T) {
 	defer log.Println("Done.")
 	log.SetOutput(os.Stdout)
-	log.SetFlags(log.Ltime|log.LUTC)
+	log.SetFlags(log.Ltime | log.LUTC)
 
 	apiConnection := Open()
 	var wg sync.WaitGroup

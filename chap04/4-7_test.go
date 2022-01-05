@@ -30,7 +30,6 @@ func Test_FanIn(t *testing.T) {
 	done := make(chan interface{})
 	defer close(done)
 
-
 	start := time.Now()
 
 	rand := func() interface{} { return rand.Intn(500000000) }

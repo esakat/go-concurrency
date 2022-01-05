@@ -18,7 +18,7 @@ func bridge(done <-chan interface{}, chanStream <-chan <-chan interface{}) <-cha
 			}
 			for val := range orDone(done, stream) {
 				select {
-				case valStream<-val:
+				case valStream <- val:
 				case <-done:
 				}
 			}

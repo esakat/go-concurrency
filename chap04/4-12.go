@@ -25,7 +25,6 @@ func printFarewell(done <-chan interface{}) error {
 	return nil
 }
 
-
 func genGreeting(done <-chan interface{}) (string, error) {
 	switch locale, err := locale(done); {
 	case err != nil:
@@ -50,13 +49,12 @@ func locale(done <-chan interface{}) (string, error) {
 	select {
 	case <-done:
 		return "", fmt.Errorf("canceld")
-	case <-time.After(1*time.Minute):
+	case <-time.After(1 * time.Minute):
 	}
 	return "EN/US", nil
 }
 
 // 以下はctx使った場合の例
-
 
 func printGreetingWithCtx(ctx context.Context) error {
 	greeting, err := genGreetingWithCtx(ctx)
@@ -75,7 +73,6 @@ func printFarewellWithCtx(ctx context.Context) error {
 	log.Printf("%s world!\n", farewell)
 	return nil
 }
-
 
 func genGreetingWithCtx(ctx context.Context) (string, error) {
 	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
@@ -110,7 +107,7 @@ func localeWithCtx(ctx context.Context) (string, error) {
 	select {
 	case <-ctx.Done():
 		return "", fmt.Errorf("canceld")
-	case <-time.After(1*time.Minute):
+	case <-time.After(1 * time.Minute):
 	}
 	return "EN/US", nil
 }
@@ -132,7 +129,6 @@ func UserID(c context.Context) string {
 func AuthToken(c context.Context) string {
 	return c.Value(ctxAuthToken).(string)
 }
-
 
 func ProcessRequest(userID, authToken string) {
 	ctx := context.WithValue(context.Background(), ctxUserID, userID)

@@ -13,7 +13,7 @@ func orDone(done, c <-chan interface{}) <-chan interface{} {
 					return
 				}
 				select {
-				case valStream<-v:
+				case valStream <- v:
 				case <-done:
 				}
 			}

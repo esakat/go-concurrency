@@ -63,7 +63,6 @@ func Test_wrong_heartbeat(t *testing.T) {
 	log.Println("finish")
 }
 
-
 func Test_heartbeat_per_job(t *testing.T) {
 	done := make(chan interface{})
 	defer close(done)
@@ -86,14 +85,13 @@ func Test_heartbeat_per_job(t *testing.T) {
 	}
 }
 
-
 // this test will fail
 func Test_doWorkWithIntStream_BadCase(t *testing.T) {
 	done := make(chan interface{})
 	defer close(done)
 
-	intSlice := []int{0,1,2,3,5}
-	_, results := doWorkWithIntStream(done,intSlice...)
+	intSlice := []int{0, 1, 2, 3, 5}
+	_, results := doWorkWithIntStream(done, intSlice...)
 
 	for i, expected := range intSlice {
 		select {
@@ -118,8 +116,8 @@ func Test_doWorkWithIntStream_GoodCase(t *testing.T) {
 	done := make(chan interface{})
 	defer close(done)
 
-	intSlice := []int{0,1,2,3,5}
-	heartbeat, results := doWorkWithIntStream(done,intSlice...)
+	intSlice := []int{0, 1, 2, 3, 5}
+	heartbeat, results := doWorkWithIntStream(done, intSlice...)
 
 	<-heartbeat
 
@@ -138,13 +136,12 @@ func Test_doWorkWithIntStream_GoodCase(t *testing.T) {
 	}
 }
 
-
 func Test_doWorkMoreSafteyHeartbeat(t *testing.T) {
 	done := make(chan interface{})
 	defer close(done)
 
-	intSlice := []int{0,1,2,3,5}
-	const timeout = 2*time.Second
+	intSlice := []int{0, 1, 2, 3, 5}
+	const timeout = 2 * time.Second
 	heartbeat, results := doWorkMoreSafeHeartbeat(done, timeout/2, intSlice...)
 
 	<-heartbeat

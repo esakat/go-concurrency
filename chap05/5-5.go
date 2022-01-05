@@ -8,7 +8,7 @@ import (
 )
 
 func Per(eventCount int, duration time.Duration) rate.Limit {
-	return rate.Every(duration/time.Duration(eventCount))
+	return rate.Every(duration / time.Duration(eventCount))
 }
 
 // Dummy API with two endpoints
@@ -49,7 +49,6 @@ func (a *APIConnection) ResolveAddress(ctx context.Context) error {
 	}
 	return nil
 }
-
 
 // 流量制限のまとめやく
 type RateLimiter interface {

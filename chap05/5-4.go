@@ -12,7 +12,7 @@ func doWorkCopy(
 	id int,
 	wg *sync.WaitGroup,
 	result chan<- int,
-	) {
+) {
 	started := time.Now()
 	defer wg.Done()
 

@@ -79,18 +79,17 @@ func doWorkPerJob(done <-chan interface{}) (<-chan interface{}, <-chan int) {
 	return heartbeatStream, workStream
 }
 
-
 func doWorkWithIntStream(
 	done <-chan interface{},
 	nums ...int,
-	) (<-chan interface{}, <-chan int) {
+) (<-chan interface{}, <-chan int) {
 	heartbeatStream := make(chan interface{}, 1)
 	intStream := make(chan int)
 	go func() {
 		defer close(heartbeatStream)
 		defer close(intStream)
 
-		time.Sleep(2*time.Second)
+		time.Sleep(2 * time.Second)
 
 		for _, n := range nums {
 			select {
@@ -109,8 +108,6 @@ func doWorkWithIntStream(
 	return heartbeatStream, intStream
 }
 
-
-
 func doWorkMoreSafeHeartbeat(
 	done <-chan interface{},
 	pulseInterval time.Duration,
@@ -122,11 +119,11 @@ func doWorkMoreSafeHeartbeat(
 		defer close(heartbeat)
 		defer close(intStream)
 
-		time.Sleep(2*time.Second)
+		time.Sleep(2 * time.Second)
 
 		pulse := time.Tick(pulseInterval)
 
-		numLoop:
+	numLoop:
 		for _, n := range nums {
 			for {
 				select {
