@@ -8,7 +8,9 @@ func fib(n int) <-chan int {
 			result <- 1
 			return
 		}
-		result <- <-fib(n-1) + <-fib(n-2);
+		result <- <-fib(n-1) + <-fib(n-2)
 	}()
+	// ここから継続
+	// 継続とはプログラム中のある計算処理の途中からその処理を終わらせるまでに行われる処理のまとまりを指す
 	return result
 }
